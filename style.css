@@ -1,0 +1,301 @@
+/* ============================================================
+   EQUIPO 4 · Timed Card Opening — versión fiel al video del pin
+   El pin es un video de 18 s de una página de viajes a pantalla
+   completa: abajo hay tarjetas verticales pequeñas con foto y
+   nombre; una a una, de forma temporizada, una se ensancha y su
+   foto pasa a ser la imagen principal, las demás quedan como
+   miniaturas. Arriba a la izquierda va el logo, arriba a la
+   derecha búsqueda y menú, abajo en el centro flechas y puntos,
+   y abajo a la derecha el número de escena (01, 05).
+   Aquí es lo mismo, con 5 integrantes del equipo.
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0b0f14;
+  --text: #f4f6f8;
+  --muted: #c3ccd6;
+  --accent: #38bdf8;
+  --accent-2: #f59e0b;
+  --card-h: 210px;
+  --radius: 18px;
+  --time: 4s; /* el video dura 18 s para 5 escenas: ~3.6 s por tarjeta; 4 s se lee mejor */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---------- Escenario a pantalla completa ---------- */
+.stage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 32px 22px;
+  overflow: hidden;
+}
+
+/* Fondos grandes: se alternan con fundido + zoom lento (efecto Ken Burns) */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1s ease, transform 6s ease;
+  z-index: 0;
+}
+.hero-bg.is-visible { opacity: 1; transform: scale(1); }
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11,15,20,.55) 0%, rgba(11,15,20,.10) 38%, rgba(11,15,20,.88) 100%);
+  z-index: 1;
+}
+
+/* ---------- Barra superior: logo izquierda, íconos derecha ---------- */
+.topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+}
+.logo { font-size: 22px; font-weight: 800; letter-spacing: 3px; text-shadow: 0 2px 14px rgba(0,0,0,.6); }
+.logo span {
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 8px;
+  padding: 2px 9px;
+  margin-left: 2px;
+  text-shadow: none;
+}
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.topbar-text { color: #e8edf2; font-size: 14px; letter-spacing: .4px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.icon-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.12);
+  color: #fff; font-size: 17px; cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background .25s ease, transform .25s ease;
+}
+.icon-btn:hover { background: rgba(255,255,255,.28); transform: scale(1.06); }
+
+/* ---------- Título grande a la izquierda, como en el video ---------- */
+.hero {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+  margin-top: auto;
+  margin-bottom: 24px;
+}
+.hero-kicker { color: var(--accent); font-weight: 700; letter-spacing: 2px; font-size: 13px; text-transform: uppercase; }
+.hero h1 {
+  font-size: clamp(46px, 8vw, 84px);
+  line-height: .95;
+  margin: 10px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 4px 30px rgba(0,0,0,.55);
+}
+.hero-role { color: var(--accent-2); font-weight: 700; font-size: 17px; }
+.hero-desc { color: #e8edf2; font-size: 17px; line-height: 1.55; margin-top: 10px; max-width: 620px; }
+
+/* Animación del texto del hero cada vez que cambia de tarjeta */
+.hero.swap h1, .hero.swap .hero-role, .hero.swap .hero-desc, .hero.swap .hero-kicker {
+  animation: heroIn .6s ease both;
+}
+.hero.swap .hero-role { animation-delay: .08s; }
+.hero.swap .hero-desc { animation-delay: .16s; }
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.btn {
+  display: inline-block;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary { background: var(--accent); color: #06121c; box-shadow: 0 10px 26px rgba(56,189,248,.35); }
+.btn--primary:hover { background: #7dd3fc; }
+.btn--ghost { background: rgba(255,255,255,.12); color: var(--text); border-color: rgba(255,255,255,.35); backdrop-filter: blur(6px); }
+
+/* ---------- Tarjetas miniatura abajo ---------- */
+.cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  height: var(--card-h);
+}
+
+.card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,.18);
+  background: #111827;
+  /* Entrada escalonada al cargar, como el "timed opening" del pin */
+  animation: rise .7s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay: calc(var(--i) * 140ms + 150ms);
+  transition: flex .7s cubic-bezier(.2,.8,.2,1), transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,.45); }
+
+/* La tarjeta activa se ensancha y muestra todo su contenido */
+.card.is-active {
+  flex: 3.2;
+  box-shadow: 0 22px 50px rgba(0,0,0,.5);
+  border-color: #fff;
+}
+
+.card img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform .8s ease;
+}
+.card.is-active img, .card:hover img { transform: scale(1.12); }
+.card-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.88) 100%);
+}
+
+.card-content {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.card-num {
+  font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.3);
+  padding: 3px 8px; border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+/* En miniatura solo se lee el nombre; al abrirse se ven rol, descripción y botón */
+.card h2 { font-size: 16px; line-height: 1.1; text-shadow: 0 2px 14px rgba(0,0,0,.6); }
+.card.is-active h2 { font-size: 20px; }
+.card-role { color: var(--accent); font-size: 12.5px; font-weight: 700; }
+.card-desc, .card-btn, .card-role {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .45s ease .2s, transform .45s ease .2s;
+  pointer-events: none;
+}
+.card.is-active .card-desc, .card.is-active .card-btn, .card.is-active .card-role {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.card-desc { color: #e5eaf0; font-size: 13.5px; line-height: 1.45; }
+.card-btn {
+  margin-top: 4px;
+  background: #fff; color: #0b0f14;
+  font-weight: 800; font-size: 13px;
+  padding: 8px 14px; border-radius: 999px; text-decoration: none;
+  transition: background .25s ease, transform .25s ease;
+}
+.card-btn:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* ---------- Flechas + puntos en el centro, número a la derecha ---------- */
+.bottombar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+.hero-controls { display: flex; align-items: center; gap: 14px; }
+.hero-controls button {
+  width: 42px; height: 42px; flex: 0 0 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.12);
+  color: #fff; font-size: 18px; cursor: pointer;
+  transition: background .25s ease, transform .25s ease;
+}
+.hero-controls button:hover { background: rgba(255,255,255,.28); transform: scale(1.06); }
+.dots { display: flex; gap: 8px; }
+.dots button {
+  width: 10px; height: 10px; flex: none;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,.4);
+  cursor: pointer;
+  transition: transform .25s ease, background .25s ease;
+}
+.dots button.is-active { background: #fff; transform: scale(1.4); }
+.scene {
+  position: absolute;
+  right: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+}
+.scene span { font-size: 22px; }
+
+/* Barra de progreso fina al pie, sincronizada con el autoplay */
+.progress {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 4px; background: rgba(255,255,255,.18);
+  z-index: 3;
+}
+.progress span {
+  display: block; height: 100%; width: 0%;
+  background: var(--accent);
+}
+.progress span.run { animation: progress var(--time) linear forwards; }
+@keyframes progress { from { width: 0%; } to { width: 100%; } }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .stage { padding-left: 18px; padding-right: 18px; }
+  .topbar-text { display: none; }
+  .hero h1 { font-size: 44px; }
+  .cards { flex-direction: column; height: auto; }
+  .card { height: 110px; flex: none; }
+  .card.is-active { height: 300px; flex: none; }
+  .scene { position: static; margin-left: 16px; }
+}
