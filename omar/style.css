@@ -10,7 +10,7 @@
     --black: #0d0d0d;
     --black-soft: #151515;
 
-    --white: #f5f5f2;
+    --white: #eaeae5;
     --gray: #a7a7a1;
 
     --transition: 0.4s ease;
@@ -67,7 +67,7 @@ button {
 }
 
 .navbar {
-    width: 90%;
+    width: 91%;
     max-width: 1200px;
 
     margin: auto;
