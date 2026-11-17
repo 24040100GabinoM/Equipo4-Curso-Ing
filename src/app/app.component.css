@@ -1,0 +1,6 @@
+/* Los estilos de la página están en src/styles.css (estilos globales),
+   porque la página es a pantalla completa y usa body, .stage, .hero, etc.
+   Este archivo queda intencionalmente casi vacío. */
+:host {
+  display: block;
+}
