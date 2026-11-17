@@ -1,0 +1,93 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "newProjectRoot": "projects",
+  "projects": {
+    "equipo4-curso-ing": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "configurations": {
+            "development": {
+              "extractLicenses": false,
+              "optimization": false,
+              "sourceMap": true
+            },
+            "production": {
+              "budgets": [
+                {
+                  "maximumError": "1MB",
+                  "maximumWarning": "500kB",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "4kB",
+                  "maximumWarning": "2kB",
+                  "type": "anyComponentStyle"
+                }
+              ],
+              "outputHashing": "all"
+            }
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": [
+              "src/assets"
+            ],
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "outputPath": "dist/equipo4-curso-ing",
+            "polyfills": [
+              "zone.js"
+            ],
+            "scripts": [],
+            "styles": [
+              "src/styles.css"
+            ],
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "development": {
+              "buildTarget": "equipo4-curso-ing:build:development"
+            },
+            "production": {
+              "buildTarget": "equipo4-curso-ing:build:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "assets": [
+              "src/assets"
+            ],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "scripts": [],
+            "styles": [
+              "src/styles.css"
+            ],
+            "tsConfig": "tsconfig.spec.json"
+          }
+        }
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {},
+      "sourceRoot": "src"
+    }
+  },
+  "version": 1,
+  "cli": {
+    "analytics": false
+  }
+}
