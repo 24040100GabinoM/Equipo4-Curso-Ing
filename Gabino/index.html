@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabino Martinez Delgado // Carta de Presentación</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Librerías de Animación: GSAP & Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+    <!-- Tipografías: Cinzel (RPG Ornamental), JetBrains Mono (Hacker Terminal), Space Grotesk (UI Moderna) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Hoja de estilos local siguiendo la estructura de carpetas -->
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body class="flex flex-col min-h-screen selection:bg-[#EC4899] selection:text-white">
+
+    <!-- FILTRO SVG GOOEY PARA LIQUID UI -->
+    <svg class="hidden" aria-hidden="true">
+        <defs>
+            <filter id="liquid-gooey-filter">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="
+                    1 0 0 0 0  
+                    0 1 0 0 0  
+                    0 0 1 0 0  
+                    0 0 0 22 -9" result="gooey" />
+                <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- ======================================================================
+         1. HEADER SUPERIOR HÍBRIDO (IDENTIDAD DEL ALUMNO Y TELEMETRÍA)
+         ====================================================================== -->
+    <header class="gsap-header sticky top-0 z-30 mx-3 sm:mx-6 mt-3 bg-[#121218] text-white border border-[var(--active-neon)] px-4 sm:px-6 py-3 genshin-chamfer-sm shadow-[0_8px_24px_rgba(18,18,24,0.12),0_0_12px_var(--active-soft-shadow)] flex flex-wrap items-center justify-between gap-4 transition-colors duration-300">
+        
+        <!-- Nombre y Subtítulo -->
+        <div class="flex items-center gap-3.5">
+            <div class="w-9 h-9 bg-[#1F202E] border border-[var(--active-neon)] rotate-45 flex items-center justify-center shadow-[0_0_10px_var(--active-soft-shadow)] shrink-0">
+                <svg class="w-5 h-5 -rotate-45 text-[var(--active-neon)]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L14.8 9.2L23 12L14.8 14.8L12 23L9.2 14.8L1 12L9.2 9.2L12 1Z"/>
+                </svg>
+            </div>
+            <div class="ml-1">
+                <div class="flex items-center gap-2 font-hacker text-[11px]">
+                    <span class="px-1.5 py-0.5 bg-[#1F202E] border border-[#00FF00] text-[#00FF00] font-bold">SYS.LINK // ACTIVE</span>
+                    <span id="telemetry-clock" class="text-gray-400">00:00:00.00</span>
+                </div>
+                <h1 contenteditable="true" spellcheck="false" class="font-rpg text-base sm:text-xl font-bold tracking-wider text-white uppercase">
+                    Gabino Martinez Delgado
+                </h1>
+            </div>
+        </div>
+
+        <!-- Selector rápido de frecuencia y materia -->
+        <div class="flex items-center gap-2.5 sm:gap-4 flex-wrap">
+            <div class="hidden md:flex items-center gap-1.5 bg-[#181822] px-2.5 py-1.5 border border-white/10 rounded-sm">
+                <span class="font-hacker text-[10px] text-gray-400 mr-1">FREQ:</span>
+                <button onclick="selectCard(0)" title="¿Qué me gusta? (Púrpura)" class="w-3.5 h-3.5 rounded-full bg-[#A855F7] hover:scale-125 transition"></button>
+                <button onclick="selectCard(1)" title="¿En qué soy bueno? (Magenta)" class="w-3.5 h-3.5 rounded-full bg-[#EC4899] hover:scale-125 transition"></button>
+                <button onclick="selectCard(2)" title="Ejemplos (Ámbar)" class="w-3.5 h-3.5 rounded-full bg-[#F59E0B] hover:scale-125 transition"></button>
+            </div>
+
+            <div class="flex items-center gap-2 bg-[#181822] px-3 py-1.5 border border-[#F59E0B]/70 shadow-[0_0_8px_rgba(245,158,11,0.2)] genshin-chamfer-sm">
+                <span class="rpg-diamond bg-[#F59E0B]"></span>
+                <span class="font-hacker text-xs text-gray-400">MATERIA:</span>
+                <span class="font-hacker font-bold text-xs text-[#F59E0B]">PROGRAMACIÓN</span>
+            </div>
+
+            <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#181822] border border-white/15 font-hacker text-xs text-gray-200 genshin-chamfer-sm">
+                <span class="w-2 h-2 rounded-full bg-[#00FF00]"></span>
+                <span>CARTA DE PRESENTACIÓN</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ======================================================================
+         2. CONTENIDO PRINCIPAL (3 COLUMNAS SOBRE LIENZO BLANCO SÓLIDO)
+         ====================================================================== -->
+    <main class="flex-1 max-w-[1620px] w-full mx-auto px-3 sm:px-6 py-5 grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+
+        <!-- ==================================================================
+             COLUMNA IZQUIERDA: SELECTOR DE MÓDULOS (TUS 3 CARDS) & LOGS
+             ================================================================== -->
+        <aside class="gsap-col-left lg:col-span-3 flex flex-col gap-4">
+            
+            <!-- Directorio de los 3 Cards -->
+            <div class="bg-[#121218] text-white border border-[var(--active-neon)] p-4 genshin-chamfer shadow-[0_10px_24px_rgba(18,18,24,0.12),0_0_10px_var(--active-soft-shadow)] transition-colors duration-300">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
+                    <div>
+                        <span class="font-hacker text-[10px] text-gray-400 block">CARD_DIRECTORY // 03</span>
+                        <h2 class="font-rpg text-sm font-bold tracking-wider text-white">MÓDULOS DE PERFIL</h2>
+                    </div>
+                    <span class="rpg-diamond bg-[var(--active-neon)]"></span>
+                </div>
+
+                <div id="card-selector-list" class="grid grid-cols-1 gap-2.5">
+                    <!-- Inyectado dinámicamente por JS -->
+                </div>
+            </div>
+
+            <!-- Stream de Telemetría Hacker -->
+            <div class="bg-[#121218] text-white border border-white/15 p-4 genshin-chamfer shadow-[0_10px_24px_rgba(18,18,24,0.12)] flex-1 flex flex-col justify-between min-h-[190px]">
+                <div>
+                    <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
+                        <span class="font-hacker text-[11px] font-bold text-[#00FF00] flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#00FF00] animate-ping"></span>
+                            LIVE_PACKET_STREAM
+                        </span>
+                        <span class="font-hacker text-[10px] text-gray-400">0xGMD26</span>
+                    </div>
+                    <div id="hacker-log-feed" class="font-hacker text-[11px] leading-relaxed space-y-1.5 text-gray-300 max-h-[175px] overflow-hidden">
+                        <!-- Logs generados por JS -->
+                    </div>
+                </div>
+
+                <div class="mt-3 pt-2 border-t border-white/10 flex items-center justify-between font-hacker text-[10px] text-gray-400">
+                    <span>AUTO_ROTATE: <strong id="auto-status-readout" class="text-[#00FF00]">ON (5s)</strong></span>
+                    <span class="text-[var(--active-neon)]">EDITABLE</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==================================================================
+             COLUMNA CENTRAL: ASTROLABIO LIQUID UI + CONTROLES DE CARRUSEL
+             ================================================================== -->
+        <section id="liquid-astrolabe-zone" class="gsap-col-center lg:col-span-4 flex flex-col items-center justify-between py-2 px-2 relative">
+            
+            <!-- Badge Superior -->
+            <div class="bg-[#121218] text-white px-4 py-1.5 border border-[var(--active-neon)] genshin-chamfer-sm shadow-[0_6px_16px_rgba(18,18,24,0.12),0_0_8px_var(--active-soft-shadow)] flex items-center gap-2.5 transition-colors duration-300">
+                <span class="font-hacker text-[11px] text-[var(--active-neon)] font-bold" id="node-hex-id">NODE: 01/03</span>
+                <span class="text-gray-600">|</span>
+                <span class="font-hacker text-[11px] text-gray-300" id="liquid-state-label">CARTA_PRESENTACIÓN</span>
+            </div>
+
+            <!-- ESCENARIO CENTRAL: ASTROLABIO RPG + NÚCLEO LÍQUIDO GOOEY -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 md:w-[310px] md:h-[310px] my-3 flex items-center justify-center">
+                
+                <!-- Anillo Exterior Rotatorio (GSAP) -->
+                <svg id="gsap-outer-ring" class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 360 360" fill="none">
+                    <circle cx="180" cy="180" r="172" stroke="#121218" stroke-width="1.5" stroke-dasharray="10 6 2 6" stroke-opacity="0.35"/>
+                    <circle cx="180" cy="180" r="160" stroke="var(--active-neon)" stroke-width="1.5" stroke-dasharray="40 12 6 12"/>
+                    <polygon points="180,2 186,10 180,18 174,10" fill="#121218"/>
+                    <polygon points="180,342 186,350 180,358 174,350" fill="#121218"/>
+                    <polygon points="2,180 10,174 18,180 10,186" fill="#121218"/>
+                    <polygon points="342,180 350,174 358,180 350,186" fill="#121218"/>
+                </svg>
+
+                <!-- Astrolabio Geométrico RPG (Anime.js) -->
+                <svg id="anime-astrolabe-svg" class="absolute inset-5 w-[calc(100%-2.5rem)] h-[calc(100%-2.5rem)] pointer-events-none" viewBox="0 0 300 300" fill="none">
+                    <polygon class="astro-stroke" points="150,12 288,150 150,288 12,150" stroke="#121218" stroke-width="2" stroke-opacity="0.85"/>
+                    <rect class="astro-stroke" x="52" y="52" width="196" height="196" stroke="var(--active-neon)" stroke-width="1.5"/>
+                    <circle class="astro-stroke" cx="150" cy="150" r="115" stroke="#121218" stroke-width="1" stroke-dasharray="4 4"/>
+                    <polygon class="astro-stroke" points="150,35 250,208 50,208" stroke="var(--active-neon)" stroke-width="1.2" stroke-opacity="0.75"/>
+                    <polygon class="astro-stroke" points="150,265 250,92 50,92" stroke="#121218" stroke-width="1.2" stroke-opacity="0.6"/>
+                </svg>
+
+                <!-- Núcleo Líquido Orgánico (Gooey + Anime.js) -->
+                <div class="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full bg-[#121218] border-2 border-[var(--active-neon)] shadow-[0_12px_30px_rgba(18,18,24,0.22),0_0_18px_var(--active-soft-shadow)] flex items-center justify-center overflow-hidden transition-colors duration-300">
+                    <svg id="liquid-metaballs-svg" class="w-full h-full liquid-stage" viewBox="0 0 200 200">
+                        <circle id="blob-core" cx="100" cy="100" r="46" fill="var(--active-neon)" />
+                        <circle class="liquid-blob" cx="75" cy="80" r="24" fill="var(--active-neon)" />
+                        <circle class="liquid-blob" cx="128" cy="85" r="20" fill="var(--active-neon)" />
+                        <circle class="liquid-blob" cx="115" cy="126" r="25" fill="var(--active-neon)" />
+                        <circle class="liquid-blob" cx="78" cy="122" r="18" fill="var(--active-neon)" />
+                    </svg>
+
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <div class="w-16 h-16 bg-[#121218]/90 border border-white/30 rotate-45 flex items-center justify-center shadow-md">
+                            <span id="core-glyph" class="-rotate-45 font-rpg font-extrabold text-xl text-white">C-01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placa de Identidad + Controles del Carrusel -->
+            <div class="w-full max-w-sm flex flex-col items-center gap-3">
+                <div class="w-full bg-[#121218] text-white border-y-2 border-[var(--active-neon)] px-5 py-3 genshin-chamfer shadow-[0_12px_25px_rgba(18,18,24,0.15),0_0_12px_var(--active-soft-shadow)] text-center transition-colors duration-300">
+                    <div class="flex items-center justify-center gap-2 mb-0.5">
+                        <span class="text-[#F59E0B] text-xs tracking-widest">★★★★★</span>
+                        <span class="text-gray-600">//</span>
+                        <span id="active-protocol-tag" class="font-hacker text-[10px] font-bold px-2 py-0.5 bg-[#1F202E] border border-[var(--active-neon)] text-[var(--active-neon)]">
+                            PERFIL_01
+                        </span>
+                    </div>
+                    <h2 id="active-card-heading" class="font-rpg text-lg sm:text-xl font-extrabold tracking-wider text-white uppercase">
+                        ¿Qué me gusta?
+                    </h2>
+                </div>
+
+                <!-- Botones de Control (Funcionalidad del carrusel original conservada) -->
+                <div class="flex items-center justify-center gap-2 w-full">
+                    <button id="prevBtn" class="hybrid-btn flex-1 py-2 px-3 font-hacker text-[11px] font-bold tracking-wider uppercase genshin-chamfer-sm">
+                        &lt;&lt; ANT
+                    </button>
+                    <button id="autoRotateBtn" class="hybrid-btn flex-1 py-2 px-3 font-hacker text-[11px] font-bold tracking-wider uppercase genshin-chamfer-sm text-[#00FF00]">
+                        PAUSAR
+                    </button>
+                    <button id="nextBtn" class="hybrid-btn flex-1 py-2 px-3 font-hacker text-[11px] font-bold tracking-wider uppercase genshin-chamfer-sm">
+                        SIG &gt;&gt;
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             COLUMNA DERECHA: VISOR DEL CARD ACTIVO (TEXTO + IMAGEN + PESTAÑAS)
+             ================================================================== -->
+        <section class="gsap-col-right lg:col-span-5 flex flex-col">
+            <div class="dark-neon-shell flex-1">
+                <div class="dark-neon-body p-4 sm:p-6 flex flex-col justify-between">
+                    
+                    <div>
+                        <!-- Pestañas rápidas para navegar entre tus 3 cards -->
+                        <div class="grid grid-cols-3 gap-2 pb-4 border-b border-white/10">
+                            <button onclick="selectCard(0)" data-tab="0" class="card-tab px-2 py-2 font-hacker text-[11px] font-bold tracking-tight border genshin-chamfer-sm transition-all text-center">
+                                01_GUSTOS
+                            </button>
+                            <button onclick="selectCard(1)" data-tab="1" class="card-tab px-2 py-2 font-hacker text-[11px] font-bold tracking-tight border genshin-chamfer-sm transition-all text-center">
+                                02_HABILIDADES
+                            </button>
+                            <button onclick="selectCard(2)" data-tab="2" class="card-tab px-2 py-2 font-hacker text-[11px] font-bold tracking-tight border genshin-chamfer-sm transition-all text-center">
+                                03_EJEMPLOS
+                            </button>
+                        </div>
+
+                        <!-- Contenido Principal del Card Seleccionado (Editable igual que en tu HTML original) -->
+                        <div id="card-display-viewport" class="mt-4 flex flex-col justify-between">
+                            
+                            <!-- Encabezado del Card -->
+                            <div class="flex items-center justify-between mb-2">
+                                <span id="card-tag-label" class="font-hacker text-[11px] text-[var(--active-neon)] font-bold">
+                                    // ARCHIVO_01 :: PERSONALIZACIÓN_Y_DATOS
+                                </span>
+                                <span class="font-hacker text-[10px] text-gray-400">EDICIÓN LIBRE ACTIVA</span>
+                            </div>
+
+                            <h3 id="card-title-editable" contenteditable="true" spellcheck="false" class="font-rpg text-xl sm:text-2xl font-bold text-white tracking-wide mb-3 pb-2 border-b border-white/10">
+                                ¿Qué me gusta?
+                            </h3>
+
+                            <!-- Párrafo descriptivo del Card -->
+                            <div class="bg-[#181822] border-l-2 border-[var(--active-neon)] p-3.5 mb-4 genshin-chamfer-sm">
+                                <p id="card-text-editable" contenteditable="true" spellcheck="false" class="text-gray-200 text-xs sm:text-sm text-justify leading-relaxed">
+                                    Me gusta la Música, perzonalizar cualquier cosa que no se pueda perzonalizar o que tenga reglas estrictas de que no se puede perzonalizar, y consumir grandes cantidades de informacion sobre temas que me dan curiosidad.
+                                </p>
+                            </div>
+
+                            <!-- Contenedor de Imagen apuntando exactamente a tu carpeta Images/ -->
+                            <div class="w-full h-44 sm:h-52 bg-[#0B0B10] border border-[var(--active-neon)] genshin-chamfer-sm overflow-hidden relative group">
+                                <img id="card-image-el" src="Images/card1.jpg" alt="Proyecto Alpha" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+                                <div id="card-image-badge" class="absolute bottom-2 right-2 bg-[#121218]/90 px-2.5 py-1 text-[11px] text-[var(--active-neon)] font-hacker border border-[var(--active-neon)]">
+                                    Images/card1.jpg
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Mini Terminal de estado en la base del panel -->
+                    <div class="mt-4 pt-3 border-t border-white/15">
+                        <div class="flex items-center justify-between font-hacker text-[10px] text-gray-400">
+                            <span>RUTA_LOCAL: <strong id="footer-img-path" class="text-white">Images/card1.jpg</strong></span>
+                            <span class="text-[#00FF00]">ROOT@GABINO // 2026</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ======================================================================
+         3. FOOTER HÍBRIDO (CONSERVANDO TU INFORMACIÓN DE CONTACTO Y REDES)
+         ====================================================================== -->
+    <footer class="mx-3 sm:mx-6 mb-3 mt-2 bg-[#121218] text-white border border-[var(--active-neon)] px-5 py-5 genshin-chamfer-sm shadow-[0_8px_24px_rgba(18,18,24,0.12)] transition-colors duration-300">
+        <div class="max-w-[1620px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center">
+            <div>
+                <h3 contenteditable="true" spellcheck="false" class="font-hacker text-[#A855F7] font-bold tracking-widest text-xs uppercase mb-1.5">
+                    // CONTACTO DIRECTO
+                </h3>
+                <p contenteditable="true" spellcheck="false" class="text-gray-300 text-xs sm:text-sm">
+                    Email: contacto@tudominio.com<br>
+                    Ubicación: Sector Cyber / Global
+                </p>
+            </div>
+
+            <div class="text-center">
+                <h3 contenteditable="true" spellcheck="false" class="font-hacker text-[#EC4899] font-bold tracking-widest text-xs uppercase mb-1.5">
+                    // REDES Y CANALES
+                </h3>
+                <div class="flex justify-center gap-4 font-hacker text-xs sm:text-sm text-white">
+                    <span contenteditable="true" spellcheck="false" class="hover:text-[#A855F7] cursor-pointer transition">LinkedIn</span>
+                    <span contenteditable="true" spellcheck="false" class="hover:text-[#EC4899] cursor-pointer transition">GitHub</span>
+                    <span contenteditable="true" spellcheck="false" class="hover:text-[#F59E0B] cursor-pointer transition">Twitter/X</span>
+                </div>
+            </div>
+
+            <div class="md:text-right">
+                <h3 contenteditable="true" spellcheck="false" class="font-hacker text-[#F59E0B] font-bold tracking-widest text-xs uppercase mb-1.5">
+                    // ESTADO DEL SISTEMA
+                </h3>
+                <p contenteditable="true" spellcheck="false" class="text-gray-300 text-xs sm:text-sm">
+                    STATUS: <span class="text-[#00FF00] font-hacker font-bold">OPERATIVO</span><br>
+                    EDICIÓN LIBRE HABILITADA
+                </p>
+            </div>
+        </div>
+        <div class="max-w-[1620px] mx-auto mt-4 pt-3 border-t border-white/10 text-center font-hacker text-[10px] text-gray-400 tracking-widest">
+            GABINO MARTINEZ DELGADO // CARTA DE PRESENTACIÓN &copy; 2026. TODOS LOS DERECHOS RESERVADOS.
+        </div>
+    </footer>
+
+    <!-- ======================================================================
+         4. LÓGICA JAVASCRIPT (DATOS DE TUS CARDS, CARRUSEL Y ANIMACIONES)
+         ====================================================================== -->
+    <script>
+        // Datos exactos de tus 3 cards del primer mensaje adaptados a la paleta estricta
+        const profileCards = [
+            {
+                code: 'C-01',
+                uid: 'NODE: 01/03',
+                tag: 'PERFIL_01',
+                fileLabel: '// ARCHIVO_01 :: PERSONALIZACIÓN_Y_DATOS',
+                title: '¿Qué me gusta?',
+                text: 'Me gusta la Música, asi como las actividades al aire libre que requieran esfuerzo fisico o simeplemente una caminata durante un largo tiempo, y algo que me gusta mucho o me apasiona es hacer modelados 3d para videjuegos.',
+                imgSrc: 'Images/card1.jpg',
+                imgAlt: 'Proyecto Alpha',
+                fallbackBg: '181822',
+                fallbackHex: 'A855F7',
+                neon: '#A855F7', // Púrpura Eléctrico
+                softShadow: 'rgba(168, 85, 247, 0.28)',
+                borderGlow: 'rgba(168, 85, 247, 0.55)'
+            },
+            {
+                code: 'C-02',
+                uid: 'NODE: 02/03',
+                tag: 'PERFIL_02',
+                fileLabel: '// ARCHIVO_02 :: HABILIDADES_Y_DESTREZAS',
+                title: '¿En que soy bueno?',
+                text: 'Soy bueno en la electronica, deportes de contacto y sobre redes no es se me de excelente pero considero que si tengo lo necesario para ser ingeniero promedio de redes que saca la chamba adelante, algo que si no se me da muy bien es hablar en publico en las exposicionesJAJAJA, pero intento hacerlo lo mejor posible cuando me toca exponer.',
+                imgSrc: 'Images/card2.jpg',
+                imgAlt: 'Inteligencia Neon',
+                fallbackBg: '181822',
+                fallbackHex: 'EC4899',
+                neon: '#EC4899', // Magenta Neón
+                softShadow: 'rgba(236, 72, 153, 0.28)',
+                borderGlow: 'rgba(236, 72, 153, 0.55)'
+            },
+            {
+                code: 'C-03',
+                uid: 'NODE: 03/03',
+                tag: 'PERFIL_03',
+                fileLabel: '// ARCHIVO_03 :: MUESTRA_DE_INTERESES',
+                title: 'Ejemplos',
+                text: 'En este card se muestra algunos de mis gustos, en general son variados y muchos, algunos no tiene nada que ver con otros pero es por que me gusta descubrir cosas nuevas todo el tiempo.',
+                imgSrc: 'Images/mis gustos.jpg',
+                imgAlt: 'Matriz Quantum',
+                fallbackBg: '181822',
+                fallbackHex: 'F59E0B',
+                neon: '#F59E0B', // Dorado / Ámbar
+                softShadow: 'rgba(245, 158, 11, 0.28)',
+                borderGlow: 'rgba(245, 158, 11, 0.55)'
+            }
+        ];
+
+        let currentIndex = 0;
+        let isAutoRotating = true;
+        let autoRotateInterval;
+
+        // Guardar ediciones en tiempo real si el usuario edita el texto directamente en pantalla
+        const titleEl = document.getElementById('card-title-editable');
+        const textEl = document.getElementById('card-text-editable');
+
+        titleEl.addEventListener('input', () => {
+            profileCards[currentIndex].title = titleEl.innerText;
+            document.getElementById('active-card-heading').innerText = titleEl.innerText;
+            renderSidebarList();
+        });
+
+        textEl.addEventListener('input', () => {
+            profileCards[currentIndex].text = textEl.innerText;
+        });
+
+        // Cambiar de tarjeta y actualizar colores neón dinámicos
+        function selectCard(index) {
+            currentIndex = (index + profileCards.length) % profileCards.length;
+            const card = profileCards[currentIndex];
+
+            // Actualizar variables CSS globales
+            const root = document.documentElement;
+            root.style.setProperty('--active-neon', card.neon);
+            root.style.setProperty('--active-soft-shadow', card.softShadow);
+            root.style.setProperty('--active-border-glow', card.borderGlow);
+
+            // Actualizar textos del Astrolabio y Visor
+            document.getElementById('node-hex-id').innerText = card.uid;
+            document.getElementById('core-glyph').innerText = card.code;
+            document.getElementById('active-protocol-tag').innerText = card.tag;
+            document.getElementById('active-card-heading').innerText = card.title;
+            document.getElementById('card-tag-label').innerText = card.fileLabel;
+            titleEl.innerText = card.title;
+            textEl.innerText = card.text;
+
+            // Actualizar imagen con respaldo limpio si aún no se carga en local
+            const imgEl = document.getElementById('card-image-el');
+            imgEl.onerror = function() {
+                this.onerror = null;
+                this.src = `https://placehold.co/600x300/${card.fallbackBg}/${card.fallbackHex}?text=${encodeURIComponent(card.imgSrc)}`;
+            };
+            imgEl.src = card.imgSrc;
+            imgEl.alt = card.imgAlt;
+
+            document.getElementById('card-image-badge').innerText = card.imgSrc;
+            document.getElementById('footer-img-path').innerText = card.imgSrc;
+
+            // Animación suave de entrada con GSAP
+            gsap.fromTo('#card-display-viewport', 
+                { opacity: 0.35, y: 8 }, 
+                { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+            );
+
+            renderSidebarList();
+            updateTabsUI();
+            pushHackerLog(`LOAD_NODE [${card.code}] -> ${card.imgSrc}`);
+        }
+
+        // Renderizar lista lateral izquierda
+        function renderSidebarList() {
+            const container = document.getElementById('card-selector-list');
+            container.innerHTML = profileCards.map((c, idx) => {
+                const isActive = idx === currentIndex;
+                return `
+                    <button onclick="selectCard(${idx}); resetAutoRotate();" 
+                        class="w-full text-left p-2.5 border transition-all genshin-chamfer-sm flex items-center justify-between ${isActive ? 'bg-[#1F202E] border-[var(--active-neon)] shadow-[0_0_10px_var(--active-soft-shadow)]' : 'bg-[#181822] border-white/10 hover:border-white/30'}">
+                        <div class="flex items-center gap-2.5 overflow-hidden">
+                            <span class="w-7 h-7 rotate-45 border flex items-center justify-center shrink-0" style="border-color: ${c.neon}; background: #121218;">
+                                <span class="-rotate-45 font-hacker text-[10px] font-bold" style="color: ${c.neon};">${c.code}</span>
+                            </span>
+                            <div class="truncate ml-1">
+                                <div class="font-rpg text-xs font-bold text-white truncate">${c.title}</div>
+                                <div class="font-hacker text-[10px] text-gray-400 truncate">${c.imgSrc}</div>
+                            </div>
+                        </div>
+                        ${isActive ? `<span class="rpg-diamond shrink-0" style="background: ${c.neon};"></span>` : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Actualizar estilo de las pestañas superiores del panel derecho
+        function updateTabsUI() {
+            document.querySelectorAll('.card-tab').forEach((btn, idx) => {
+                if (idx === currentIndex) {
+                    btn.style.backgroundColor = '#1F202E';
+                    btn.style.borderColor = profileCards[currentIndex].neon;
+                    btn.style.color = '#FFFFFF';
+                } else {
+                    btn.style.backgroundColor = '#181822';
+                    btn.style.borderColor = 'rgba(255,255,255,0.12)';
+                    btn.style.color = '#9CA3AF';
+                }
+            });
+        }
+
+        // Controles de rotación (Anterior, Siguiente, Pausar/Reanudar)
+        function rotateNext() {
+            selectCard(currentIndex + 1);
+        }
+
+        function rotatePrev() {
+            selectCard(currentIndex - 1);
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            rotateNext();
+            resetAutoRotate();
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            rotatePrev();
+            resetAutoRotate();
+        });
+
+        function startAutoRotate() {
+            clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(() => {
+                if (isAutoRotating) {
+                    rotateNext();
+                }
+            }, 5000);
+        }
+
+        function resetAutoRotate() {
+            if (isAutoRotating) {
+                startAutoRotate();
+            }
+        }
+
+        const autoRotateBtn = document.getElementById('autoRotateBtn');
+        const autoStatusReadout = document.getElementById('auto-status-readout');
+
+        autoRotateBtn.addEventListener('click', () => {
+            isAutoRotating = !isAutoRotating;
+            if (isAutoRotating) {
+                autoRotateBtn.textContent = 'PAUSAR';
+                autoRotateBtn.classList.add('text-[#00FF00]');
+                autoRotateBtn.classList.remove('text-[#F59E0B]');
+                autoStatusReadout.textContent = 'ON (5s)';
+                autoStatusReadout.className = 'text-[#00FF00]';
+                startAutoRotate();
+                pushHackerLog('AUTO_CYCLE: RESUMED');
+            } else {
+                autoRotateBtn.textContent = 'REANUDAR';
+                autoRotateBtn.classList.remove('text-[#00FF00]');
+                autoRotateBtn.classList.add('text-[#F59E0B]');
+                autoStatusReadout.textContent = 'PAUSED';
+                autoStatusReadout.className = 'text-[#F59E0B]';
+                clearInterval(autoRotateInterval);
+                pushHackerLog('AUTO_CYCLE: PAUSED');
+            }
+        });
+
+        // Stream de logs estilo Hacker
+        const logFeed = document.getElementById('hacker-log-feed');
+        function pushHackerLog(msg) {
+            const now = new Date();
+            const ts = now.toTimeString().split(' ')[0];
+            const line = document.createElement('div');
+            line.innerHTML = `<span class="text-[#A855F7]">[${ts}]</span> <span class="text-gray-300">${msg}</span>`;
+            logFeed.prepend(line);
+            if (logFeed.children.length > 6) {
+                logFeed.removeChild(logFeed.lastChild);
+            }
+        }
+
+        // Reloj de telemetría en vivo
+        setInterval(() => {
+            const d = new Date();
+            const ms = String(Math.floor(d.getMilliseconds() / 10)).padStart(2, '0');
+            document.getElementById('telemetry-clock').innerText = `${d.toTimeString().split(' ')[0]}.${ms}`;
+        }, 80);
+
+        // Animaciones iniciales con GSAP y Anime.js (Astrolabio + Liquid Gooey)
+        window.addEventListener('DOMContentLoaded', () => {
+            // Rotación continua del anillo exterior
+            gsap.to('#gsap-outer-ring', {
+                rotation: 360,
+                duration: 45,
+                repeat: -1,
+                ease: 'none',
+                transformOrigin: '50% 50%'
+            });
+
+            // Trazado geométrico del astrolabio con Anime.js
+            anime({
+                targets: '.astro-stroke',
+                strokeDashoffset: [anime.setDashoffset, 0],
+                easing: 'easeInOutSine',
+                duration: 1800,
+                delay: anime.stagger(180)
+            });
+
+            // Movimiento orgánico líquido de las metaballs
+            document.querySelectorAll('.liquid-blob').forEach((blob, i) => {
+                anime({
+                    targets: blob,
+                    cx: () => 100 + anime.random(-26, 26),
+                    cy: () => 100 + anime.random(-26, 26),
+                    r: () => anime.random(18, 28),
+                    duration: () => anime.random(2200, 3400),
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutQuad',
+                    delay: i * 250
+                });
+            });
+
+            selectCard(0);
+            startAutoRotate();
+            pushHackerLog('SYSTEM_BOOT // GABINO_PORTFOLIO [OK]');
+        });
+    </script>
+</body>
+</html>
